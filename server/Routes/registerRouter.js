@@ -71,16 +71,26 @@ regRouter.get('/viewreg', async (req, res) => {
     })
 })
 // --------------------------------------UPDATE DATA-----------------------------------------------
-regRouter.get('/updateuser', async (req, res) => {
+regRouter.get('/updateuser/:id', async (req, res) => {
+  
 
     try {
-       
-        await regData.update().then((data) => {
-            if (data.updateCount == 0) {
+        const data = {
+            username:req.query.username,
+            password:req.query.password,
+            phone: req.query.phone,
+            email: req.query.email,
+            gender: req.query.gender,
+            address: req.query.address
+        }
+       console.log( req.params.id);
+        await regData.updateOne({ _id: req.params.id }).then((data) => {
+            console.log(data);
+            if (data.modifiedCount == 0) {
                 return res.status(200).json({
                     success: true,
                     error: false,
-                    message: 'no data to update'
+                    message: 'data already updated'
                 })
             }
             else {
@@ -95,7 +105,8 @@ regRouter.get('/updateuser', async (req, res) => {
             return res.status(400).json({
                 success: false,
                 error: true,
-                message: 'data not found'
+                message: 'data not found',
+                error:error
             })
         })
     } catch (error) {
@@ -104,11 +115,11 @@ regRouter.get('/updateuser', async (req, res) => {
 })
 
 //----------------------------------------DELETE DATA---------------------------------------------
-regRouter.get('/deleteuser', async (req, res) => {
+regRouter.get('/deleteuser/:id', async (req, res) => {
 
     try {
         
-        await regData.delete().then((data) => {
+        await regData.deleteOne({ _id: req.params.id }).then((data) => {
           
             if (data.deletedCount == 0) {
                 return res.status(200).json({
