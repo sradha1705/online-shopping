@@ -11,14 +11,14 @@ loginRouter.post('/login_data', async (req, res) => {
         return res.status(400).json({
             success: false,
             error: true,
-            message: 'user not found'
+            message: 'USER NOT FOUND'
         })
     }
     if (oldUser.password === req.body.password) {
         return res.status(200).json({
             succces: true,
             error: false,
-            message: 'login success',
+            message: 'LOGIN SUCCESS',
             data: oldUser
         })
     }
@@ -26,7 +26,7 @@ loginRouter.post('/login_data', async (req, res) => {
         res.status(400).json({
             success: false,
             error: true,
-            message: 'incorrect password'
+            message: 'INCORRECT PASSWORD'
         })
     }
 })

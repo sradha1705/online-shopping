@@ -4,6 +4,7 @@ const cors=require('cors')
 const regRouter = require('./Routes/registerRouter');
 const loginRouter = require('./Routes/loginrouter');
 const productRouter = require('./Routes/productRouter');
+const feedbackRouter = require('./Routes/feedbackRouter');
 
 
 const app=express()
@@ -22,6 +23,7 @@ app.use(express.urlencoded({extended:true}))
 app.use('/register',regRouter)
 app.use('/login',loginRouter)
 app.use('/product',productRouter)
+app.use('/feedback',feedbackRouter)
 
 app.listen(5000, () => {
     console.log('server started at http//localhost:5000');

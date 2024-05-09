@@ -1,7 +1,7 @@
-const express=require('express')
+const express = require('express')
 const regData = require('../models/register_schema')
 const { log } = require('console')
-const regRouter=express.Router()
+const regRouter = express.Router()
 
 regRouter.post('/add_reg', async (req, res) => {
 
@@ -11,10 +11,9 @@ regRouter.post('/add_reg', async (req, res) => {
         return res.status(200).json({
             succces: true,
             error: false,
-            message: 'username already exist'
+            message: 'USERNAME ALREADY EXIST '
         })
     }
-    
     console.log(oldName);
     const oldemail = await regData.findOne({ 'email': req.body.email })
 
@@ -22,7 +21,7 @@ regRouter.post('/add_reg', async (req, res) => {
         return res.status(200).json({
             succces: true,
             error: false,
-            message: 'email already exist'
+            message: 'EMAIL ALREADY EXIST '
         })
     }
     const oldphone = await regData.findOne({ 'phone': req.body.phone })
@@ -31,13 +30,12 @@ regRouter.post('/add_reg', async (req, res) => {
         return res.status(200).json({
             succces: true,
             error: false,
-            message: 'phone already exist'
+            message: 'PHONENUMBER ALREADY EXIST  '
         })
     }
-
     const data = {
-        username:req.body.username,
-        password:req.body.password,
+        username: req.body.username,
+        password: req.body.password,
         phone: req.body.phone,
         email: req.body.email,
         gender: req.body.gender,
@@ -48,7 +46,7 @@ regRouter.post('/add_reg', async (req, res) => {
         return res.status(200).json({
             succces: true,
             error: false,
-            message: 'data added successfully',
+            message: 'DATA ADDED SUCCESSFULLY',
             data: data
         })
     }
@@ -59,80 +57,76 @@ regRouter.get('/viewreg', async (req, res) => {
         res.status(200).json({
             succces: true,
             error: false,
-            message: 'data retrived successfully',
+            message: 'DATA RETRIVED SUCCESSFULLY',
             data: data
         })
     }).catch((error) => {
         res.status(400).json({
             success: false,
             error: true,
-            message: 'data not found'
+            message: 'DATA NOT FOUND'
         })
     })
 })
 // --------------------------------------UPDATE DATA-----------------------------------------------
 regRouter.get('/updateuser/:id', async (req, res) => {
-  
-
     try {
         const data = {
-            username:req.query.username,
-            password:req.query.password,
+            username: req.query.username,
+            password: req.query.password,
             phone: req.query.phone,
             email: req.query.email,
             gender: req.query.gender,
             address: req.query.address
         }
-       console.log( req.params.id);
-        await regData.updateOne({ _id: req.params.id }).then((data) => {
+        console.log(req.params.id);
+        await regData.updateOne({ _id: req.params.id }, { $set: data }).then((data) => {
             console.log(data);
             if (data.modifiedCount == 0) {
                 return res.status(200).json({
                     success: true,
                     error: false,
-                    message: 'data already updated'
+                    message: 'DATA ALREADY UPDATED'
                 })
             }
             else {
                 return res.status(400).json({
                     success: false,
                     error: true,
-                    message: 'data updated'
+                    message: 'DATA UPDATED'
                 })
             }
-
         }).catch((error) => {
             return res.status(400).json({
                 success: false,
                 error: true,
-                message: 'data not found',
-                error:error
+                message: 'DATA NOT UPDATED',
+                error: error
             })
         })
     } catch (error) {
-        console.log('Error found');
+        console.log('ERROR FOUND');
     }
 })
-
 //----------------------------------------DELETE DATA---------------------------------------------
 regRouter.get('/deleteuser/:id', async (req, res) => {
 
     try {
-        
+
         await regData.deleteOne({ _id: req.params.id }).then((data) => {
-          
+
             if (data.deletedCount == 0) {
                 return res.status(200).json({
                     success: true,
                     error: false,
-                    message: 'no data to delete'
+                    message: 'NO DATA TO DELETE'
                 })
             }
             else {
                 return res.status(400).json({
                     success: false,
                     error: true,
-                    message: 'data deleted'
+                    message: 'DATA DELETED'
                 })
             }
 
@@ -140,12 +134,12 @@ regRouter.get('/deleteuser/:id', async (req, res) => {
             return res.status(400).json({
                 success: false,
                 error: true,
-                message: 'data not found'
+                message: 'DATA NOT FOUND'
             })
         })
     } catch (error) {
-        console.log('Error found');
+        console.log('ERROR FOUND');
     }
 })
 
-module.exports=regRouter
+module.exports = regRouter
