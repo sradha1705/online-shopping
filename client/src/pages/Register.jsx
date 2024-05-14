@@ -2,9 +2,12 @@ import React from 'react'
 
 export default function Register() {
   return (
-    <div><header>
+    <>
+    
     <h4>REGISTER</h4><br/>
-</header><form>
+
+<div className="d-flex justify-content-center">
+<form style={{alignItems:'center'}}>
     <div className="form-group">
       <label htmlFor="exampleInputEmail1"><b>Username</b></label>
       <input
@@ -61,6 +64,8 @@ export default function Register() {
     <button type="submit" className="btn btn-primary">
       Submit
     </button>
-  </form></div>
+  </form>
+  </div>
+  </>
   )
 }

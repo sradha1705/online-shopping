@@ -5,6 +5,7 @@ export default function Login() {
     <div><header>
     <h4>LOGIN</h4><br/>
 </header>
+<div className="d-flex justify-content-center">
 <form>
     <div className="form-group">
       <label htmlFor="exampleInputEmail1">Username</label>
@@ -36,8 +37,9 @@ export default function Login() {
     </div> */}<br/>
     <button type="submit" className="btn btn-primary">
       Submit
-    </button>
-  </form>
+    </button><br/>
+    <a href='/forgotpassword'>Forgot Password</a>
+  </form></div>
   </div>
   )
 }

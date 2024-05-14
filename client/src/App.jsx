@@ -8,17 +8,22 @@ import Nav from './components/Nav'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Viewproducts from './pages/Viewproducts'
+import Card from './components/Card'
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/home' element={<Home />} />
+          <Route path='/' element={<Home />} />
           <Route path='/nav' element={<Nav />} />
           <Route path='/contact' element={<Contact/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
+          <Route path='/viewproduct' element={<Viewproducts/>}/>
+          <Route path='/card' element={<Card/>}/>
+
         </Routes>
       </BrowserRouter>
 
