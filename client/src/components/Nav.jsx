@@ -57,7 +57,7 @@ export default function Nav() {
                   <ul className="dropdown-menu">
                     <li>
                       <a className="dropdown-item" href="#">
-                      <Link to={"/loginadmin"}>As Admin</Link>
+                      <Link to={"/login"}>As Admin</Link>
                       </a>
                     </li>
                     <li>
