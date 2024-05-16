@@ -1,9 +1,10 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 
 export default function Register() {
-
+  const navigate = useNavigate()
   const [input, setInput] = useState({
 
     username: '',
@@ -71,7 +72,7 @@ export default function Register() {
       axios.post('http://localhost:5000/register/add_reg', input).then((data) => {
         console.log(data);
 
-        // navigate('/login')
+        navigate('/login')
 
       }).catch((error) => {
         console.log(error);

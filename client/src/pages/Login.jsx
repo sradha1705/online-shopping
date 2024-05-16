@@ -1,8 +1,9 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
-
+  const navigate = useNavigate()
   const [input, setInput] = useState({
     username: '',
     password: '',
@@ -51,7 +52,7 @@ export default function Login() {
         localStorage.setItem('role', data.data.data.role);
         localStorage.setItem('username', data.data.data.username);
 
-        // navigate('/home')
+        navigate('/home')
 
       }).catch((error) => {
 
@@ -89,6 +90,7 @@ export default function Login() {
                 <span style={{ color: 'red' }}>{formError.password}</span>
                 <input
                   type="password"
+                  name='password'
                   onChange={change}
                   onClick={() => { setFormError({ ...formError, password: '' }) }}
                   className="form-control"

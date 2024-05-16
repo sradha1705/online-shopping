@@ -38,7 +38,7 @@ regRouter.post('/add_reg', async (req, res) => {
         username: req.body.username,
         password: req.body.password,
         role: 'user',
-        status: '1'
+        status: '0'
     }
     const logindetails = await loginData(logintb).save()
 
@@ -60,6 +60,7 @@ regRouter.post('/add_reg', async (req, res) => {
     }
 })
 //----------------------------------VIEW DATA--------------------------------------------------
+
 regRouter.get('/viewreg', async (req, res) => {
     await regData.find().then((data) => {
         res.status(200).json({
@@ -76,6 +77,7 @@ regRouter.get('/viewreg', async (req, res) => {
         })
     })
 })
+
 // --------------------------------------UPDATE DATA-----------------------------------------------
 
 regRouter.get('/updateuser/:id', async (req, res) => {

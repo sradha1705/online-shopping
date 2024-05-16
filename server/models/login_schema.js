@@ -5,6 +5,12 @@ const login_table = new mongoose.Schema({
     },
     password: {
         type: String, require: true
+    } ,
+    role: {
+        type: String, require: true
+    } ,
+    status: {
+        type: String, require: true
     } 
 })
 var loginData = mongoose.model('login_tb', login_table)

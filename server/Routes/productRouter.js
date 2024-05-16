@@ -1,14 +1,29 @@
 const express = require('express')
+const multer=require('multer')
 const productData = require('../models/product_schema')
 const productRouter = express.Router()
 
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '../public/images/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+
+let upload = multer({ storage });
+
 // ---------------------------------ADD PRODUCT-----------------------------------------
-productRouter.post('/add_product', async (req, res) => {
+productRouter.post('/add_product',upload.single('photo'), async (req, res) => {
+    console.log(req.file);
+
     const data = {
         name: req.body.name,
         quantity: req.body.quantity,
         description: req.body.description,
-        photo: req.body.photo,
+        photo:  req.file.filename,
         price: req.body.price,
     }
     const product = await productData(data).save()
@@ -22,6 +37,7 @@ productRouter.post('/add_product', async (req, res) => {
     }
 })
 //------------------------------------VIEW PRODUCT-----------------------------------------------
+
 productRouter.get('/viewproduct', async (req, res) => {
     await productData.find().then((data) => {
         res.status(200).json({
@@ -38,31 +54,32 @@ productRouter.get('/viewproduct', async (req, res) => {
         })
     })
 })
+
 // ---------------------------VIEW SINGLE PRODUCT------------------------------------------------
-productRouter.get('/view_single_product/:id', async (req, res) => {
-    const data = {
-        name: req.query.name,
-        quantity: req.body.quantity,
-        description: req.query.description,
-        photo: req.query.photo,
-        price: req.query.price,
-    }
+// productRouter.get('/view_single_product/:id', async (req, res) => {
+//     const data = {
+//         name: req.query.name,
+//         quantity: req.body.quantity,
+//         description: req.query.description,
+//         photo: req.query.photo,
+//         price: req.query.price,
+//     }
     
-    await productData.findOne({ _id: req.params.id }).then((data) => {
-        res.status(200).json({
-            succces: true,
-            error: false,
-            message: 'DATA RETRIVED SUCCESSFULLY',
-            data: data
-        })
-    }).catch((error) => {
-        res.status(400).json({
-            success: false,
-            error: true,
-            message: ' DATA NOT FOUND'
-        })
-    })
-})
+//     await productData.findOne({ _id: req.params.id }).then((data) => {
+//         res.status(200).json({
+//             succces: true,
+//             error: false,
+//             message: 'DATA RETRIVED SUCCESSFULLY',
+//             data: data
+//         })
+//     }).catch((error) => {
+//         res.status(400).json({
+//             success: false,
+//             error: true,
+//             message: ' DATA NOT FOUND'
+//         })
+//     })
+// })
 // ----------------------------UPDATE PRODUCT-------------------------------------
 productRouter.get('/updateproduct/:id', async (req, res) => {
 
