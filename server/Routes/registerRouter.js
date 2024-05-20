@@ -61,8 +61,43 @@ regRouter.post('/add_reg', async (req, res) => {
 })
 //----------------------------------VIEW DATA--------------------------------------------------
 
-regRouter.get('/viewreg', async (req, res) => {
-    await regData.find().then((data) => {
+
+regRouter.get('/view_user_reg', async (req, res) => {
+    await regData.aggregate ([
+        {
+          '$lookup': {
+            'from': 'login_tbs', 
+            'localField': 'loginid', 
+            'foreignField': '_id', 
+            'as': 'user'
+          }
+        }, 
+        {
+          '$unwind': {
+            'path': '$user'
+          }
+        },
+         {
+          '$group': {
+            '_id': '$_id', 
+            'phone': {
+              '$first': '$phone'
+            }, 
+            'email': {
+              '$first': '$email'
+            }, 
+            'gender': {
+              '$first': '$gender'
+            }, 
+            'address': {
+              '$first': '$address'
+            }, 
+            'username': {
+              '$first': '$user.username'
+            }
+          }
+        }
+    ]).then((data) => {
         res.status(200).json({
             succces: true,
             error: false,

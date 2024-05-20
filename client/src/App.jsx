@@ -11,12 +11,14 @@ import Register from './pages/Register'
 import Viewproducts from './pages/Viewproducts'
 import Card from './components/Card'
 import Addproducts from './pages/Addproducts'
+import Viewuser from './pages/Viewuser'
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Routes>
+
           <Route path='/' element={<Home />} />
           <Route path='/home' element={<Home />} />
           <Route path='/nav' element={<Nav />} />
@@ -26,6 +28,7 @@ function App() {
           <Route path='/viewproduct' element={<Viewproducts/>}/>
           <Route path='/card' element={<Card/>}/>
           <Route path='/product' element={<Addproducts/>}/>
+          <Route path='/userdetail' element={<Viewuser />} />
 
         </Routes>
       </BrowserRouter>

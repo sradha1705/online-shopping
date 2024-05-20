@@ -23,8 +23,8 @@ export default function Nav() {
             data-bs-theme="dark" style={{ width: "-webkit-fill-available" }}>
 
             <div className="container-fluid">
-              <a className="navbar-brand" href="#">
-                TECH HUB
+              <a className="navbar-brand" href="#" style={{ color: 'rosybrown', fontFamily: "monospace" }}>
+                <b>TECH HUB</b>
               </a>
 
               <button
@@ -38,7 +38,7 @@ export default function Nav() {
               >
                 <span className="navbar-toggler-icon" />
               </button>
-              <div style={{ alignItems: "left" }}>
+              <div style={{ alignItems: "left" ,color: 'rosybrown', fontFamily: "monospace" }}>
 
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                   <ul className="navbar-nav">
@@ -49,7 +49,7 @@ export default function Nav() {
                     </li>
                     <li className="nav-item">
                       <a className="nav-link" href="#">
-                        <Link to={"/"}>User Details</Link>
+                        <Link to={"/userdetail"}>User Details</Link>
                       </a>
                     </li>
 
