@@ -1,90 +1,88 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+export default function Updateprofile() {
+    const navigate=useNavigate()
+    const [input, setInput] = useState({})
+    const [formError, setFormError] = useState({})
+    const [isSubmit, setIsSubmit] = useState(false)
+    const change = (event) => {
 
-export default function Register() {
-  const navigate = useNavigate()
-  const [input, setInput] = useState({
+        const name = event.target.name
+        const value = event.target.value
 
-    username: '',
-    password: '',
-    phone: '',
-    email: '',
-    gender: '',
-    pin: '',
-    address: ''
+        setInput({ ...input, [name]: value })
 
-  })
-  
-  const [formError, setFormError] = useState({})
-  const [isSubmit, setIsSubmit] = useState(false)
-  // console.log(formError);
-
-  const change = (event) => {
-
-    const name = event.target.name
-    const value = event.target.value
-
-    setInput({ ...input, [name]: value })
-
-  }
-  const validate = (value) => {
-    console.log(value);
-    const phone = /^[6-9]\d{9}$/;
-    const email = /^\w+([\.-]?\w+)*@\w+([\.-]?\W+)*(\.\w{2,3})+$/;
-    const error = {}
-
-    if (value.username == '') {
-      error.username = 'Enter username'
     }
-    if (value.password == '') {
-      error.password = 'Enter password'
-    }
-    if (value.phone == '') {
-      error.phone = 'Enter phone'
-    }
-    else if (!phone.test(value.phone)) {
-      error.phone = 'Enter a valid number'
-    }
-    if (value.email == '') {
-      error.email = 'Enter email'
-    }
-    else if (!email.test(value.email)) {
-      error.email = 'Enter a valid email'
-    }
-    if (value.address == '') {
-      error.address = 'Enter address'
-    }
-    if (value.pin == '') {
-      error.pin = 'Enter pin'
-    }
-    return error
+    const validate = (value) => {
+        console.log(value);
+        const phone = /^[6-9]\d{9}$/;
+        const email = /^\w+([\.-]?\w+)*@\w+([\.-]?\W+)*(\.\w{2,3})+$/;
+        const error = {}
 
-  }
-  const submit = (e) => {
-    e.preventDefault()
-    setFormError(validate(input))
-    setIsSubmit(true)
-    // console.log('ertyu');
-    if (Object.keys(formError).length == 0 && isSubmit == true) {
-      console.log(input);
-      axios.post('http://localhost:5000/register/add_reg', input).then((data) => {
-        console.log(data);
-
-        navigate('/login')
-
-      }).catch((error) => {
-        console.log(error);
-      })
+        if (value.username == '') {
+            error.username = 'Enter username'
+        }
+        if (value.phone == '') {
+            error.phone = 'Enter phone'
+        }
+        else if (!phone.test(value.phone)) {
+            error.phone = 'Enter a valid number'
+        }
+        if (value.email == '') {
+            error.email = 'Enter email'
+        }
+        else if (!email.test(value.email)) {
+            error.email = 'Enter a valid email'
+        }
+        if (value.address == '') {
+            error.address = 'Enter address'
+        }
+        if (value.pin == '') {
+            error.pin = 'Enter pin'
+        }
+        return error
     }
-  }
+    const loginid = localStorage.getItem('login_id');
+
+
+    useEffect(() => {
+
+        axios.get(`http://localhost:5000/register/view_singledata/${loginid}`).then((data) => {
+
+            console.log(data.data.data[0]);
+            setInput(data.data.data[0]);
+
+        }).catch((error) => {
+            console.log(error);
+        })
+    }, [])
+
+    console.log(input);
+    
+    const submit = async (e) => {
+        e.preventDefault()
+        setFormError(validate(input))
+        setIsSubmit(true)
+        if (Object.keys(formError).length == 0 && isSubmit == true) {
+        await axios.put(`http://localhost:5000/register/update_user_reg/${loginid}`, input).then((data) => {
+            console.log(data);
+            navigate('/userprofile')
+        }).catch((error) => {
+            console.log(error);
+          })
+        // setFormError(validate(input))
+     
+    }
+}
+
   return (
     <>
     <div style={{backgroundColor:'blanchedalmond'}}>
       <div className="d-flex justify-content-center">
 
-        <h4 style={{ color: 'rosybrown', fontFamily: "monospace" }}>REGISTER</h4><br />
+        <h4>REGISTER</h4><br />
       </div>
       <div className="d-flex justify-content-center">
         <form onSubmit={submit}>
@@ -106,7 +104,7 @@ export default function Register() {
       </small> */}
           </div>
 
-          <div className="form-group" >
+          {/* <div className="form-group" >
             <label htmlFor="exampleInputPassword1"><b>Password</b></label>
             <span style={{ color: 'red' }}>{formError.password}</span>
             <input
@@ -119,7 +117,7 @@ export default function Register() {
               onClick={() => { setFormError({ ...formError, password: '' }) }}
 
             />
-          </div>
+          </div> */}
 
           <div className="form-row">
             {/* <div className="form-group col-sm-12"> */}

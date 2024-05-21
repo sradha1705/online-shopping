@@ -2,6 +2,7 @@ const express = require('express')
 const regData = require('../models/register_schema')
 const { log } = require('console')
 const loginData = require('../models/login_schema')
+const { default: mongoose } = require('mongoose')
 const regRouter = express.Router()
 // -------------ADD DATA----------------------------------------------------------------------------
 regRouter.post('/add_reg', async (req, res) => {
@@ -112,6 +113,54 @@ regRouter.get('/view_user_reg', async (req, res) => {
         })
     })
 })
+// --------------------------VIEW SINGLE USER---------------------------
+regRouter.get('/view_singledata/:id', async (req, res) => {
+
+    const login_id = req.params.id
+    await regData.aggregate([
+        {
+            '$lookup': {
+                'from': 'login_tbs',
+                'localField': 'loginid',
+                'foreignField': '_id',
+                'as': 'user'
+            }
+        },
+        {
+            '$unwind': '$user'
+        },
+        {
+            '$match': {
+                loginid: new mongoose.Types.ObjectId(login_id)
+            }
+        },
+        {
+            '$group': {
+                '_id': '$_id',
+                'phone': { '$first': '$phone' },
+                'email': { '$first': '$email' },
+                'gender': { '$first': '$gender' },
+                'address': { '$first': '$address' },
+                'loginid': { '$first': '$loginid' },
+                'username': { '$first': '$user.username' }
+            }
+        }
+    ]).then((data) => {
+        return res.status(200).json({
+            succces: true,
+            error: false,
+            message: 'data retrived successfully',
+            data: data
+        })
+    }).catch((error) => {
+        return res.status(400).json({
+            success: false,
+            error: true,
+            message: 'data not found'
+        })
+    })
+})
+
 
 // --------------------------------------UPDATE DATA-----------------------------------------------
 
@@ -125,34 +174,38 @@ regRouter.get('/updateuser/:id', async (req, res) => {
             gender: req.query.gender,
             address: req.query.address
         }
-        console.log(req.params.id);
-        await regData.updateOne({ _id: req.params.id }, { $set: data }).then((data) => {
-            console.log(data);
-            if (data.modifiedCount == 0) {
-                return res.status(200).json({
-                    success: true,
-                    error: false,
-                    message: 'DATA ALREADY UPDATED'
-                })
-            }
-            else {
-                return res.status(400).json({
-                    success: false,
-                    error: true,
-                    message: 'DATA UPDATED'
-                })
-            }
-        }).catch((error) => {
-            return res.status(400).json({
+        const regData = await loginData.updateOne({ _id: req.params.id }, { $set: { username: req.body.username } })
+        const logData = await userregData.updateOne({ loginid: req.params.id }, { $set: data })
+
+        if (regData || logData) {
+            return res.status(200).json({
                 success: false,
                 error: true,
-                message: 'DATA NOT UPDATED',
-                error: error
+                message: 'DATA UPDATED',
+                regData: regData,
+                logData: logData
             })
-        })
+        }
+        else {
+            return res.status(400).json({
+                succces: false,
+                error: true,
+                message: 'DATA UPDATION FAILED',
+                regData: regData,
+                logData: logData
+            })
+        }
+
     } catch (error) {
-        console.log('ERROR FOUND');
+
+        return res.status(500).json({
+            succces: false,
+            error: true,
+            message: 'INTERNAL SERVER ERROR',
+            errorMessage: error.message
+        })
     }
+
 })
 //----------------------------------------DELETE DATA---------------------------------------------
 regRouter.get('/deleteuser/:id', async (req, res) => {

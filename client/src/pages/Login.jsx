@@ -3,11 +3,15 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export default function Login() {
+  // const role = localStorage.getItem('role')
   const navigate = useNavigate()
   const [input, setInput] = useState({
+
     username: '',
     password: '',
+
   })
+
 
   const [formError, setFormError] = useState({})
   const [isSubmit, setIsSubmit] = useState(false)
@@ -63,49 +67,55 @@ export default function Login() {
   }
 
   return (
-    <> 
+    <>
 
       <div style={{ backgroundColor: 'blanchedalmond' }}>
         <div className="d-flex justify-content-center">
-          <h4>LOGIN</h4><br /></div>
-          <div className="d-flex justify-content-center">
-            <form onSubmit={submit}>
-              <div className="form-group">
-                <label htmlFor="exampleInputEmail1">Username</label>
-                <span style={{ color: 'red' }}>{formError.username}</span>
-                <input
-                  type="text"
-                  onChange={change}
-                  onClick={() => { setFormError({ ...formError, username: '' }) }}
-                  className="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  name='username'
-                  placeholder="Enter username"
-                /><br />
+          <h4 style={{ color: 'rosybrown', fontFamily: "monospace" }}>LOGIN</h4><br /></div>
+        <div className="d-flex justify-content-center">
+          <form onSubmit={submit}>
+            <div className="form-group">
+              <label htmlFor="exampleInputEmail1">Username</label>
+              <span style={{ color: 'red' }}>{formError.username}</span>
+              <input
+                type="text"
+                onChange={change}
+                onClick={() => { setFormError({ ...formError, username: '' }) }}
+                className="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                name='username'
+                placeholder="Enter username"
+              /><br />
 
-              </div>
-              <div className="form-group">
-                <label htmlFor="exampleInputPassword1">Password</label>
-                <span style={{ color: 'red' }}>{formError.password}</span>
-                <input
-                  type="password"
-                  name='password'
-                  onChange={change}
-                  onClick={() => { setFormError({ ...formError, password: '' }) }}
-                  className="form-control"
-                  id="exampleInputPassword1"
-                  placeholder="Password"
-                /><br />
-              </div>
-           
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button><br />
-              <a href='/forgotpassword'><b>Forgot Password</b></a>
-            </form></div>
-        </div>
-     
+            </div>
+            <div className="form-group">
+              <label htmlFor="exampleInputPassword1">Password</label>
+              <span style={{ color: 'red' }}>{formError.password}</span>
+              <input
+                type="password"
+                name='password'
+                onChange={change}
+                onClick={() => { setFormError({ ...formError, password: '' }) }}
+                className="form-control"
+                id="exampleInputPassword1"
+                placeholder="Password"
+              /><br />
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button><br />
+            <a href='/forgotpassword' ><b>Forgot Password</b></a>
+            {/* {role == 'admin' ? */}
+              <div></div>
+              {/* : */}
+              <p style={{ color: 'red' }}><b>NOT YET REGISTER? &nbsp;</b>
+                <a href='/register' style={{ color: 'red' }}><b>REGISTER NOW</b></a></p>
+            {/* } */}
+          </form></div>
+      </div>
+
     </>
   )
 }

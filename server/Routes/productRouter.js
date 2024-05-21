@@ -6,7 +6,7 @@ const productRouter = express.Router()
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '../public/images/')
+        cb(null, '../client/public/images/')
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname);
@@ -17,6 +17,9 @@ let upload = multer({ storage });
 
 // ---------------------------------ADD PRODUCT-----------------------------------------
 productRouter.post('/add_product',upload.single('photo'), async (req, res) => {
+    try {
+        
+  
     console.log(req.file);
 
     const data = {
@@ -35,6 +38,14 @@ productRouter.post('/add_product',upload.single('photo'), async (req, res) => {
             data: data
         })
     }
+} catch (error) {
+    return res.status(500).json({
+        succces: false,
+        error: true,
+        message: 'something went wrong',
+      errorMessage:error.message
+    })    
+}
 })
 //------------------------------------VIEW PRODUCT-----------------------------------------------
 

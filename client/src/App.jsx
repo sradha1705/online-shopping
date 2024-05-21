@@ -12,6 +12,8 @@ import Viewproducts from './pages/Viewproducts'
 import Card from './components/Card'
 import Addproducts from './pages/Addproducts'
 import Viewuser from './pages/Viewuser'
+import Profile from './pages/Profile'
+import Updateprofile from './pages/Updateprofile'
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
           <Route path='/card' element={<Card/>}/>
           <Route path='/product' element={<Addproducts/>}/>
           <Route path='/userdetail' element={<Viewuser />} />
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/updateprofile/:id' element={<Updateprofile />} />
 
         </Routes>
       </BrowserRouter>
